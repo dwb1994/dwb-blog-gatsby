@@ -14,14 +14,14 @@ function Bio() {
           <div
             style={{
               display: `flex`,
-              marginBottom: rhythm(2.5),
+              marginBottom: `20px`,
             }}
           >
             <Image
               fixed={data.avatar.childImageSharp.fixed}
               alt={author}
               style={{
-                marginRight: rhythm(1 / 2),
+                marginRight: `20px`,
                 marginBottom: 0,
                 minWidth: 50,
                 borderRadius: `100%`,

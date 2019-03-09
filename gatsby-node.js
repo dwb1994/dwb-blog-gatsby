@@ -20,6 +20,7 @@ exports.createPages = ({ graphql, actions }) => {
               }
               frontmatter {
                 title
+                type
               }
             }
           }
@@ -30,16 +31,55 @@ exports.createPages = ({ graphql, actions }) => {
     if (result.errors) {
       throw result.errors
     }
+    // createPage({
+    //   path: '/test/',
+    //   component: blogPost,
+
+    // })
 
     // Create blog posts pages.
     const posts = result.data.allMarkdownRemark.edges
+    // console.log(JSON.stringify(posts, null, 4));
+
+    const formatPosts = {
+      blog: [],
+      design: [],
+      other: []
+    }
+    posts.forEach((post, index) => {
+      switch (post.node.frontmatter.type) {
+        case 'design':
+          formatPosts.design.push(post)
+          break;
+        case 'other':
+          formatPosts.other.push(post)
+          break;
+        case 'blog':
+          formatPosts.blog.push(post)
+          break;
+        default:
+          formatPosts.blog.push(post)
+          break;
+      }
+    });
+
+    // console.log('formatPosts: ==\n');
+    // console.log(JSON.stringify(formatPosts, null, 4));
+    function addBlogPrefix(path, type) {
+      if (type === 'blog') {
+        return 'blog' + path;
+      } else {
+        return path;
+      }
+    }
 
     posts.forEach((post, index) => {
       const previous = index === posts.length - 1 ? null : posts[index + 1].node
       const next = index === 0 ? null : posts[index - 1].node
-
+      console.log('post.node.fields.slug');
+      console.log(post.node.fields.slug, post.node.frontmatter.type);
       createPage({
-        path: post.node.fields.slug,
+        path: addBlogPrefix(post.node.fields.slug, post.node.frontmatter.type),
         component: blogPost,
         context: {
           slug: post.node.fields.slug,
@@ -50,9 +90,9 @@ exports.createPages = ({ graphql, actions }) => {
     })
 
     // Create blog post list pages
-    const postsPerPage = 2;
+    const postsPerPage = 10;
     const numPages = Math.ceil(posts.length / postsPerPage);
-
+    // console.log('numPages:', numPages);
     Array.from({ length: numPages }).forEach((_, i) => {
       createPage({
         path: i === 0 ? `/` : `/${i + 1}`,

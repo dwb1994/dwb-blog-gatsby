@@ -1,7 +1,9 @@
 import React from 'react'
 import { Link } from 'gatsby'
 
-import { rhythm, scale } from '../utils/typography'
+import Header from './Header'
+import '../styles/index.scss'; // scss 入口
+// import '../../static/nav.min.js'
 
 class Layout extends React.Component {
   render() {
@@ -12,65 +14,28 @@ class Layout extends React.Component {
       .filter(Boolean)
       .pop()
     const isPaginatedPath = pageNumber && Boolean(pageNumber.match(/^[0-9]+$/))
-    let header
-
-    if (isRootPath || isPaginatedPath) {
-      header = (
-        <h1
-          style={{
-            ...scale(1.5),
-            marginBottom: rhythm(1.5),
-            marginTop: 0,
-          }}
-        >
-          <Link
-            style={{
-              boxShadow: `none`,
-              textDecoration: `none`,
-              color: `inherit`,
-            }}
-            to={`/`}
-          >
-            {title}
-          </Link>
-        </h1>
-      )
-    } else {
-      header = (
-        <h3
-          style={{
-            fontFamily: `Montserrat, sans-serif`,
-            marginTop: 0,
-          }}
-        >
-          <Link
-            style={{
-              boxShadow: `none`,
-              textDecoration: `none`,
-              color: `inherit`,
-            }}
-            to={`/`}
-          >
-            {title}
-          </Link>
-        </h3>
-      )
-    }
+    
     return (
       <div
         style={{
           marginLeft: `auto`,
           marginRight: `auto`,
-          maxWidth: rhythm(24),
-          padding: `${rhythm(1.5)} ${rhythm(3 / 4)}`,
         }}
       >
-        {header}
-        {children}
-        <footer>
-          © {new Date().getFullYear()}, Built with
-          {` `}
-          <a href="https://www.gatsbyjs.org">Gatsby</a>
+        <Header />
+        <div className="m-content">
+          <div className="m-content-container markdown-body">
+            {children}
+          </div>        
+        </div>
+        <footer className="m-footer">
+          <div className="m-footer-container">
+          <span>
+          © {new Date().getFullYear()}, dwb, Built with
+              {` `}
+              <a href="https://www.gatsbyjs.org">Gatsby</a>
+          </span>
+          </div>
         </footer>
       </div>
     )

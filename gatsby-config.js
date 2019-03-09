@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
-    title: 'Gatsby Paginated Blog',
-    author: 'Kyle Mathews',
+    title: 'dwb-blog',
+    author: 'dwb',
     description:
       'A paginated starter blog demonstrating what Gatsby can do. Extension of gatsby-starter-blog.',
     siteUrl: 'https://nickymeuleman.github.io/gatsby-paginated-blog/',
@@ -12,10 +12,23 @@ module.exports = {
   pathPrefix: '/gatsby-paginated-blog',
   plugins: [
     {
+      resolve: `gatsby-plugin-sass`,
+      options: {
+        implementation: require("node-sass"),
+      },
+    },
+    {
       resolve: `gatsby-source-filesystem`,
       options: {
         path: `${__dirname}/content/blog`,
         name: `blog`,
+      },
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        path: `${__dirname}/content/about`,
+        name: `about`,
       },
     },
     {
@@ -70,11 +83,11 @@ module.exports = {
     },
     `gatsby-plugin-offline`,
     `gatsby-plugin-react-helmet`,
-    {
-      resolve: `gatsby-plugin-typography`,
-      options: {
-        pathToConfigModule: `src/utils/typography`,
-      },
-    },
+    // {
+    //   resolve: `gatsby-plugin-typography`,
+    //   options: {
+    //     pathToConfigModule: `src/utils/typography`,
+    //   },
+    // },
   ],
 }

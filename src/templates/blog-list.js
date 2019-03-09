@@ -6,6 +6,14 @@ import Bio from '../components/Bio'
 import Layout from '../components/Layout'
 import { rhythm } from '../utils/typography'
 
+function addBlogPrefix(path, type) {
+  if (type === 'blog') {
+    return 'blog' + path;
+  } else {
+    return path;
+  }
+}
+
 class BlogIndex extends React.Component {
   render() {
     const { data } = this.props
@@ -17,23 +25,47 @@ class BlogIndex extends React.Component {
     const prevPage = currentPage - 1 === 1 ? '/' : (currentPage - 1).toString()
     const nextPage = (currentPage + 1).toString()
 
+    const formatPosts = {
+      blog: [],
+      design: [],
+      other: []
+    }
+    // console.log(JSON.stringify(posts, null, 4));
+    posts.forEach((post, index) => {
+      switch (post.node.frontmatter.type) {
+        case 'design':
+          formatPosts.design.push(post)
+          break;
+        case 'other':
+          formatPosts.other.push(post)
+          break;
+        case 'blog':
+          formatPosts.blog.push(post)
+          break;
+        default:
+          formatPosts.blog.push(post)
+          break;
+      }
+    });
+    // console.log(JSON.stringify(formatPosts.blog, null, 4));
+
     return (
       <Layout location={this.props.location} title={siteTitle}>
         <SEO
           title={siteTitle}
-          keywords={[`blog`, `gatsby`, `javascript`, `react`]}
+          keywords={[`blog`, `dwb`, `董文博`, `dwbbb`, `dwbbb.com`,`javascript`, `design`]}
         />
-        <Bio />
-        {posts.map(({ node }) => {
+        {/* <Bio /> */}
+        {formatPosts.blog.map(({ node }) => {
           const title = node.frontmatter.title || node.fields.slug
           return (
             <div key={node.fields.slug}>
               <h3
                 style={{
-                  marginBottom: rhythm(1 / 4),
+                  marginBottom: `20px`,
                 }}
               >
-                <Link style={{ boxShadow: 'none' }} to={node.fields.slug}>
+                <Link style={{ boxShadow: 'none' }} to={addBlogPrefix(node.fields.slug, node.frontmatter.type)}>
                   {title}
                 </Link>
               </h3>
@@ -67,7 +99,7 @@ class BlogIndex extends React.Component {
               <Link
                 to={`/${i === 0 ? '' : i + 1}`}
                 style={{
-                  padding: rhythm(1 / 4),
+                  padding: `20px`,
                   textDecoration: 'none',
                   color: i + 1 === currentPage ? '#ffffff' : '',
                   background: i + 1 === currentPage ? '#007acc' : '',
@@ -111,6 +143,7 @@ export const pageQuery = graphql`
           frontmatter {
             date(formatString: "DD MMMM, YYYY")
             title
+            type
           }
         }
       }

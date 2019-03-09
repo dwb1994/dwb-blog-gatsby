@@ -4,7 +4,7 @@ import { Link, graphql } from 'gatsby'
 import Bio from '../components/Bio'
 import Layout from '../components/Layout'
 import SEO from '../components/seo'
-import { rhythm, scale } from '../utils/typography'
+// import { rhythm, scale } from '../utils/typography'
 
 class BlogPostTemplate extends React.Component {
   render() {
@@ -12,29 +12,35 @@ class BlogPostTemplate extends React.Component {
     const siteTitle = this.props.data.site.siteMetadata.title
     const { previous, next } = this.props.pageContext
 
+    const isBlog = (post.frontmatter.type === 'blog');
+
     return (
       <Layout location={this.props.location} title={siteTitle}>
         <SEO title={post.frontmatter.title} description={post.excerpt} />
-        <h1>{post.frontmatter.title}</h1>
-        <p
-          style={{
-            ...scale(-1 / 5),
-            display: `block`,
-            marginBottom: rhythm(1),
-            marginTop: rhythm(-1),
-          }}
-        >
-          {post.frontmatter.date}
-        </p>
-        <div dangerouslySetInnerHTML={{ __html: post.html }} />
+        {/* <h1 className="m-test">{post.frontmatter.title}</h1> */}
+
+        {
+          post.frontmatter.date ? 
+          <p
+            style={{
+              display: `block`,
+              marginBottom: `20px`,
+              marginTop: `20px`,
+            }}
+          >
+            {post.frontmatter.date}
+          </p> : null
+        }
+        
+        <div className="markdown-content" dangerouslySetInnerHTML={{ __html: post.html }} />
         <hr
           style={{
-            marginBottom: rhythm(1),
+            marginBottom: `20px`,
           }}
         />
-        <Bio />
+        {/* <Bio /> */}
 
-        <ul
+        {isBlog ? <ul
           style={{
             display: `flex`,
             flexWrap: `wrap`,
@@ -57,7 +63,7 @@ class BlogPostTemplate extends React.Component {
               </Link>
             )}
           </li>
-        </ul>
+        </ul> : ''}
       </Layout>
     )
   }
@@ -80,6 +86,7 @@ export const pageQuery = graphql`
       frontmatter {
         title
         date(formatString: "MMMM DD, YYYY")
+        type
       }
     }
   }
