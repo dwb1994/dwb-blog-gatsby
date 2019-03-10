@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, graphql } from 'gatsby'
+import { Link, graphql, navigate } from 'gatsby'
 
 import SEO from '../components/seo'
 import Bio from '../components/Bio'
@@ -15,6 +15,11 @@ function addBlogPrefix(path, type) {
 }
 
 class BlogIndex extends React.Component {
+
+  articleClick = (link) => {
+    navigate(link);
+  }
+
   render() {
     const { data } = this.props
     const siteTitle = data.site.siteMetadata.title
@@ -57,21 +62,30 @@ class BlogIndex extends React.Component {
         />
         {/* <Bio /> */}
         {formatPosts.blog.map(({ node }) => {
+          console.log(JSON.stringify(node, null, 4));
           const title = node.frontmatter.title || node.fields.slug
           return (
-            <div key={node.fields.slug}>
-              <h3
-                style={{
-                  marginBottom: `20px`,
-                }}
-              >
-                <Link style={{ boxShadow: 'none' }} to={addBlogPrefix(node.fields.slug, node.frontmatter.type)}>
-                  {title}
-                </Link>
-              </h3>
-              <small>{node.frontmatter.date}</small>
-              <p dangerouslySetInnerHTML={{ __html: node.excerpt }} />
-            </div>
+            <article
+              key={node.fields.slug}
+              className="m-post"
+              onClick={() => this.articleClick(addBlogPrefix(node.fields.slug, node.frontmatter.type))}
+            >
+              <div className="m-post-content">
+                <h3 className="title">{title}</h3>
+                <small>{node.frontmatter.date}</small>
+                {
+                  node.frontmatter.excerpt ? 
+                  <p>{node.frontmatter.excerpt}</p> : <p dangerouslySetInnerHTML={{ __html: node.excerpt }} />
+                }
+              </div>
+              <div className="m-post-img">
+                <img
+                  className="ui-img"
+                  src={node.frontmatter.photos[0]}
+                  alt=""
+                />
+              </div>
+            </article>
           )
         })}
         <ul
@@ -99,10 +113,8 @@ class BlogIndex extends React.Component {
               <Link
                 to={`/${i === 0 ? '' : i + 1}`}
                 style={{
-                  padding: `20px`,
+                  padding: `.5em`,
                   textDecoration: 'none',
-                  color: i + 1 === currentPage ? '#ffffff' : '',
-                  background: i + 1 === currentPage ? '#007acc' : '',
                 }}
               >
                 {i + 1}
@@ -136,7 +148,11 @@ export const pageQuery = graphql`
     ) {
       edges {
         node {
-          excerpt
+          excerpt(
+            format: PLAIN
+            pruneLength: 100
+            truncate: true
+          )
           fields {
             slug
           }
@@ -144,6 +160,8 @@ export const pageQuery = graphql`
             date(formatString: "DD MMMM, YYYY")
             title
             type
+            excerpt
+            photos
           }
         }
       }

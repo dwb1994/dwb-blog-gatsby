@@ -4,6 +4,7 @@ import { Link, graphql } from 'gatsby'
 import Bio from '../components/Bio'
 import Layout from '../components/Layout'
 import SEO from '../components/seo'
+import { DiscussionEmbed } from "disqus-react";
 // import { rhythm, scale } from '../utils/typography'
 
 class BlogPostTemplate extends React.Component {
@@ -13,6 +14,12 @@ class BlogPostTemplate extends React.Component {
     const { previous, next } = this.props.pageContext
 
     const isBlog = (post.frontmatter.type === 'blog');
+    const disqusShortname = "dwbbb-com";
+    const disqusConfig = {
+      identifier: post.id,
+      title: post.frontmatter.title,
+    };
+    console.log('excerpt', post.excerpt);
 
     return (
       <Layout location={this.props.location} title={siteTitle}>
@@ -64,6 +71,7 @@ class BlogPostTemplate extends React.Component {
             )}
           </li>
         </ul> : ''}
+        <DiscussionEmbed shortname={disqusShortname} config={disqusConfig} />
       </Layout>
     )
   }
