@@ -1,4 +1,4 @@
-// npm run push "d"
+// npm run push "feat: xxxx"
 var shell = require('shelljs');
 
 const msg = process.argv[2] || 'feat: update blogs';
