@@ -1,11 +1,7 @@
-# gatsby-paginated-blog
+# dwb-blog
 
-Gatsby starter for creating a blog with pagination
+[dwbbb.com](dwbbb.com)
 
-Install this starter by running from your CLI:
+### publish since 2019-03-17 
 
-`npx gatsby new my-paginated-blog https://github.com/NickyMeuleman/gatsby-paginated-blog`
-
-## Running in development
-
-`npm run develop`
+### powered by gatsby 🤗
