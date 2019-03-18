@@ -4,7 +4,6 @@ date: 2018-09-24
 tags: [design]
 type: blog
 photos: [https://ww1.sinaimg.cn/large/006oPFLAly1fvkzqj4gqnj31hc0zkn3e.jpg]
-excerpt: Welcome to the second version of my blog, powered by Gatsby, an incredible site generator. Learn more about the tech stack and things I built to power this blog.
 ---
 # 提高网页设计里文本的易读性
 

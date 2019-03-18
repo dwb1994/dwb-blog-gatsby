@@ -5,7 +5,6 @@ designtags: [design, web, mobile]
 category: design
 type: design
 photos: [https://ws1.sinaimg.cn/large/006oPFLAly1frrkcsagylj31f20xawgs.jpg]
-excerpt: Welcome to the second version of my blog, powered by Gatsby, an incredible site generator. Learn more about the tech stack and things I built to power this blog.
 ---
 # YApi Design
 

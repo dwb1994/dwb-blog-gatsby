@@ -12,7 +12,6 @@ class Header extends React.Component {
     }
 
     handleClick = () => {
-        console.log('e');
         this.setState({
             visible: !this.state.visible
         });

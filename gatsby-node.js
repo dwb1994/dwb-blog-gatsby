@@ -1,5 +1,6 @@
 const path = require(`path`)
 const { createFilePath } = require(`gatsby-source-filesystem`)
+const moment = require(`moment`)
 
 exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions
@@ -31,12 +32,6 @@ exports.createPages = ({ graphql, actions }) => {
     if (result.errors) {
       throw result.errors
     }
-    // createPage({
-    //   path: '/test/',
-    //   component: blogPost,
-
-    // })
-
     // Create blog posts pages.
     const posts = result.data.allMarkdownRemark.edges
     // console.log(JSON.stringify(posts, null, 4));
@@ -63,23 +58,14 @@ exports.createPages = ({ graphql, actions }) => {
       }
     });
 
-    // console.log('formatPosts: ==\n');
-    // console.log(JSON.stringify(formatPosts, null, 4));
-    function addBlogPrefix(path, type) {
-      if (type === 'blog') {
-        return 'blog' + path;
-      } else {
-        return path;
-      }
-    }
-
+    // 新建页面 所有页面
     posts.forEach((post, index) => {
+      // posts.forEach((post, index) => {
+      // console.log(JSON.stringify(post.node.fields, null, 4));
       const previous = index === posts.length - 1 ? null : posts[index + 1].node
       const next = index === 0 ? null : posts[index - 1].node
-      console.log('post.node.fields.slug');
-      console.log(post.node.fields.slug, post.node.frontmatter.type);
       createPage({
-        path: addBlogPrefix(post.node.fields.slug, post.node.frontmatter.type),
+        path: post.node.fields.slug,
         component: blogPost,
         context: {
           slug: post.node.fields.slug,
@@ -91,8 +77,8 @@ exports.createPages = ({ graphql, actions }) => {
 
     // Create blog post list pages
     const postsPerPage = 10;
-    const numPages = Math.ceil(posts.length / postsPerPage);
-    // console.log('numPages:', numPages);
+    const numPages = Math.ceil(formatPosts.blog.length / postsPerPage);
+
     Array.from({ length: numPages }).forEach((_, i) => {
       createPage({
         path: i === 0 ? `/` : `/${i + 1}`,
@@ -108,11 +94,37 @@ exports.createPages = ({ graphql, actions }) => {
   })
 }
 
+// 添加 blog 前缀
+function addBlogPrefix(path, frontmatter) {
+  const { type } = frontmatter;
+  switch (type) {
+    case 'blog':
+      return '/blog' + path;
+      break;
+    case 'design':
+      return '/design' + path;
+      break;
+    default:
+      return path;
+      break;
+  }
+}
+
 exports.onCreateNode = ({ node, actions, getNode }) => {
   const { createNodeField } = actions
 
   if (node.internal.type === `MarkdownRemark`) {
-    const value = createFilePath({ node, getNode })
+    let value = createFilePath({ node, getNode })
+    if (node.frontmatter.date) {
+      const formatDate = moment(node.frontmatter.date).format('YYYY-MM-DD-');
+      if (value.indexOf(formatDate) !== -1) {
+        value = value.replace(formatDate, '')
+      }
+    }
+    if (node.frontmatter.type) {
+      value = addBlogPrefix(value, node.frontmatter)
+    }
+    
     createNodeField({
       name: `slug`,
       node,

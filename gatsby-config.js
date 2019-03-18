@@ -4,12 +4,11 @@ module.exports = {
     author: 'dwb',
     description:
       'A paginated starter blog demonstrating what Gatsby can do. Extension of gatsby-starter-blog.',
-    siteUrl: 'https://nickymeuleman.github.io/gatsby-paginated-blog/',
+    siteUrl: 'https://dwb1994.github.io/',
     social: {
       twitter: `kylemathews`,
     },
   },
-  pathPrefix: '/gatsby-paginated-blog',
   plugins: [
     {
       resolve: `gatsby-plugin-sass`,
@@ -78,7 +77,7 @@ module.exports = {
         background_color: `#ffffff`,
         theme_color: `#663399`,
         display: `minimal-ui`,
-        icon: `content/assets/gatsby-icon.png`,
+        icon: `static/favicon-16x16.png`,
       },
     },
     `gatsby-plugin-offline`,

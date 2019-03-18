@@ -19,7 +19,7 @@ class BlogPostTemplate extends React.Component {
       identifier: post.id,
       title: post.frontmatter.title,
     };
-    console.log('excerpt', post.excerpt);
+    // console.log('excerpt', post.excerpt);
 
     return (
       <Layout location={this.props.location} title={siteTitle}>
