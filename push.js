@@ -1,8 +1,7 @@
+// npm run push "d"
 var shell = require('shelljs');
 
-console.log('eee\n');
-console.log(process.argv[2]);
-const msg = process.argv[2];
+const msg = process.argv[2] || 'feat: update blogs';
 const sh = `
 cd public
 git commit -am "${msg}"

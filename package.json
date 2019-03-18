@@ -68,7 +68,6 @@
     "format": "prettier --trailing-comma es5 --no-semi --single-quote --write 'src/**/*.js' 'src/**/*.md'",
     "fix-semi": "eslint --quiet --ignore-pattern node_modules --ignore-pattern public --parser babel-eslint --no-eslintrc --rule '{\"semi\": [2, \"never\"], \"no-extra-semi\": [2]}' --fix gatsby-node.js",
     "deploy": "gh-pages -d public -b gatsby",
-    "push": "sh push.sh",
-    "pp": "node push.js"
+    "push": "node push.js"
   }
 }
