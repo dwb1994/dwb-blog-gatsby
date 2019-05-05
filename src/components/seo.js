@@ -27,6 +27,10 @@ function SEO({ description, lang, meta, keywords, title }) {
                 content: title,
               },
               {
+                name: `referrer`,
+                content: `no-referrer`
+              },
+              {
                 property: `og:description`,
                 content: metaDescription,
               },

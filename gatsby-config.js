@@ -8,6 +8,7 @@ module.exports = {
     social: {
       twitter: `kylemathews`,
     },
+    referrer: 'no-referrer'
   },
   plugins: [
     {

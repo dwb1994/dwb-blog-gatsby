@@ -5,6 +5,7 @@ const msg = process.argv[2] || 'feat: update blogs';
 const sh = `
 cd public
 git commit -am "${msg}"
+git pull
 git push
 `;
 
